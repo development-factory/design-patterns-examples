@@ -1,4 +1,4 @@
-package ro.developmentfactory.singleton;
+package ro.developmentfactory.creational.singleton;
 
 public final class Singleton {
     private static Singleton instance;

@@ -9,6 +9,8 @@ public class Main {
             notifier = new MacOsNotifier();
         }else if(osName.equals("Windows 10")){
             notifier = new WindowsNotifier();
+        }else if(osName.equals("Ubuntu")){
+            notifier = new LinuxNotifier();
         }
 
         // Sending notification

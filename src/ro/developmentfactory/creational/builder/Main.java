@@ -1,7 +1,6 @@
 package ro.developmentfactory.creational.builder;
 
 import ro.developmentfactory.creational.builder.v1.Car;
-import ro.developmentfactory.creational.builder.demo.v2.*;
 import ro.developmentfactory.creational.builder.v2.*;
 
 public class Main {

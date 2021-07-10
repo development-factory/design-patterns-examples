@@ -21,7 +21,7 @@ public class Main {
         // Adding button components as components of the panel (or children)
         Panel panel = new Panel();
         panel.setHeight(800);
-        panel.setHeight(600);
+        panel.setWidth(600);
 
         // Add buttons as child components
         panel.add(buttonCancel);

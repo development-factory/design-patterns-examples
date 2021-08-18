@@ -2,9 +2,15 @@ package ro.developmentfactory.structural.facade;
 
 public class OrderOrchestrator {
     // Use DI container here, creating instances for simplification.
-    private OrderProcessor processor = new OrderProcessor();
-    private OrderPreparator preparator = new OrderPreparator(new StockManager());
-    private Transporter transporter = new Transporter();
+    private final OrderProcessor processor;
+    private final OrderPreparator preparator;
+    private final Transporter transporter;
+
+    public OrderOrchestrator(OrderProcessor processor, OrderPreparator preparator, Transporter transporter) {
+        this.processor = processor;
+        this.preparator = preparator;
+        this.transporter = transporter;
+    }
 
     public void handleOrder(Order order){
         try {

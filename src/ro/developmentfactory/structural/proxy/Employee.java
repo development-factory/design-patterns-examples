@@ -1,18 +1,16 @@
 package ro.developmentfactory.structural.proxy;
 
-public class Employee {
-    private int id;
+public class Employee extends BaseEntity{
     private String firstName;
     private String lastName;
     private String address;
     private String email;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String address, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
     }
 
     public String getFirstName() {

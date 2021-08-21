@@ -5,17 +5,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-public class Proxy implements IService{
-    private List<Employee> cachedEmployees = new ArrayList<>();
-    private final IService webService;
+public class Proxy implements IService<Employee>{
+    private Repository<Employee> cachedEmployees = new Repository<>(new ArrayList<>());
+    private final IService<Employee> webService = new WebService();
     private LocalDateTime lastCached;
     private static final int MINUTES_IN_HOUR = 3600;
-
-    public Proxy(IService webService) {
-        this.webService = webService;
-    }
 
     // Check if it's first run or more than 1 hour has passed
     private boolean cacheExpired(){
@@ -24,17 +19,20 @@ public class Proxy implements IService{
             return true;
         }
         Duration durationSinceLastCached = Duration.between(LocalDateTime.now(), lastCached);
-        return durationSinceLastCached.getSeconds() > MINUTES_IN_HOUR;
+        boolean cacheExpired = durationSinceLastCached.getSeconds() > MINUTES_IN_HOUR;
+        if(!cacheExpired) printInfo();
+        return cacheExpired;
     }
 
     @Override
     public List<Employee> getEmployees() {
         // If cache expired, replace all cache with the result of the request
         if(cacheExpired()){
-            cachedEmployees = webService.getEmployees();
+            cachedEmployees = new Repository<>(new ArrayList<>());
+            cachedEmployees.addRange(webService.getEmployees());
             lastCached = LocalDateTime.now();
         }
-        return cachedEmployees;
+        return cachedEmployees.getAll();
     }
 
     @Override
@@ -42,12 +40,13 @@ public class Proxy implements IService{
         // If cache expired, delegate the request to the web service and cache the result
         // else return cached data
         if(cacheExpired()){
+            cachedEmployees = new Repository<>(new ArrayList<>());
             List<Employee> result = webService.getEmployees(p);
-            cachedEmployees.addAll(result);
+            cachedEmployees.addRange(result);
             lastCached = LocalDateTime.now();
             return result;
         }
-        return cachedEmployees.stream().filter(p).collect(Collectors.toList());
+        return cachedEmployees.getAll(p);
     }
 
     @Override
@@ -55,12 +54,13 @@ public class Proxy implements IService{
         // If cache expired, delegate the request to the web service and cache the result
         // else return cached data
         if(cacheExpired()){
+            cachedEmployees = new Repository<>(new ArrayList<>());
             Employee result = webService.getEmployee(id);
             cachedEmployees.add(result);
             lastCached = LocalDateTime.now();
             return result;
         }
-        return cachedEmployees.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
+        return cachedEmployees.getById(id);
     }
 
     @Override
@@ -71,5 +71,10 @@ public class Proxy implements IService{
     @Override
     public void removeEmployee(Employee employee) {
         webService.removeEmployee(employee);
+    }
+
+    private void printInfo(){
+        System.out.printf("%s: Returning cached data", LocalDateTime.now().toLocalTime());
+        System.out.println();
     }
 }

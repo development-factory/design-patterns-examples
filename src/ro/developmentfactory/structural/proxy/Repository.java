@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Repository<T extends BaseEntity> {
+public class Repository<T extends BaseEntity> implements IService<T>{
     private final List<T> data;
     private int recordsKey = 0;
 

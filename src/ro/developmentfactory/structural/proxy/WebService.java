@@ -10,34 +10,34 @@ public class WebService implements IService<Employee> {
 
     // All employees
     @Override
-    public List<Employee> getEmployees(){
+    public List<Employee> getAll(){
         simulateDelay(2000);
         return repo.getAll();
     }
 
     // Filter employees with predicate
     @Override
-    public List<Employee> getEmployees(Predicate<Employee> p){
+    public List<Employee> getAll(Predicate<Employee> p){
         simulateDelay(1000);
         return repo.getAll(p);
     }
 
     // Get employee by id
     @Override
-    public Employee getEmployee(int id){
+    public Employee getById(int id){
         simulateDelay(2000);
         return repo.getById(id);
     }
 
     // Add new employee
     @Override
-    public void addEmployee(Employee employee){
+    public void add(Employee employee){
         repo.add(employee);
     }
 
     // Remove employee
     @Override
-    public void removeEmployee(Employee employee){
+    public void remove(Employee employee){
         repo.remove(employee);
     }
 

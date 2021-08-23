@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        IService<Employee> proxy = new Proxy();
-        proxy.addEmployee(new Employee("Ion", "Popescu", "Bucuresti", "ion.popescu@test.com"));
-        proxy.addEmployee(new Employee("Ioana", "Ionescu", "Bucuresti", "ioanaionescu@test.com"));
-        List<Employee> employeesFirstRead = proxy.getEmployees();
+        IService<Employee> proxy = new ProxyDataService();
+        proxy.add(new Employee("Ion", "Popescu", "Bucuresti", "ion.popescu@test.com"));
+        proxy.add(new Employee("Ioana", "Ionescu", "Bucuresti", "ioanaionescu@test.com"));
+        List<Employee> employeesFirstRead = proxy.getAll();
         printEmployees(employeesFirstRead);
         System.out.println();
 
-        List<Employee> employeesSecondRead = proxy.getEmployees();
+        List<Employee> employeesSecondRead = proxy.getAll();
         printEmployees(employeesSecondRead);
     }
 

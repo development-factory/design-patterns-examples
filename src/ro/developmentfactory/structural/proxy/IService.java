@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface IService<T extends BaseEntity> {
-    List<T> getEmployees();
+    List<T> getAll();
 
-    List<T> getEmployees(Predicate<T> p);
+    List<T> getAll(Predicate<T> p);
 
-    Employee getEmployee(int id);
+    T getById(int id);
 
-    void addEmployee(T entity);
+    void add(T entity);
 
-    void removeEmployee(T entity);
+    void remove(T entity);
 }
